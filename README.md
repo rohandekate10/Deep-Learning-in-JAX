@@ -110,74 +110,20 @@ This project is based on the UvA Deep Learning Tutorials by Phillip Lippe.
 
 ## References
 
-@misc{lippe2024uvadlc,
-   title        = {{UvA Deep Learning Tutorials}},
-   author       = {Phillip Lippe},
-   year         = 2024,
-   howpublished = {\url{https://uvadlc-notebooks.readthedocs.io/en/latest/}}
-}
+1. Lippe, P. (2024). UvA Deep Learning Tutorials. [https://uvadlc-notebooks.readthedocs.io/en/latest/](https://uvadlc-notebooks.readthedocs.io/en/latest/)
 
-@software{jax2018github,
-  author = {James Bradbury and Roy Frostig and Peter Hawkins and Matthew James Johnson and Chris Leary and Dougal Maclaurin and George Necula and Adam Paszke and Jake Vander{P}las and Skye Wanderman-{M}ilne and Qiao Zhang},
-  title = {{JAX}: composable transformations of {P}ython+{N}um{P}y programs},
-  url = {http://github.com/jax-ml/jax},
-  version = {0.3.13},
-  year = {2018},
-}
+2. Bradbury, J., et al. (2018). JAX: Composable Transformations of Python+NumPy Programs. [http://github.com/jax-ml/jax](http://github.com/jax-ml/jax)
 
-@article{kidger2021equinox,
-    author={Patrick Kidger and Cristian Garcia},
-    title={{E}quinox: neural networks in {JAX} via callable {P}y{T}rees and filtered transformations},
-    year={2021},
-    journal={Differentiable Programming workshop at Neural Information Processing Systems 2021}
-}
+3. Kidger, P., & Garcia, C. (2021). Equinox: Neural Networks in JAX via Callable PyTrees and Filtered Transformations. Differentiable Programming workshop at Neural Information Processing Systems 2021.
 
-@software{deepmind2020jax,
-  title = {The {D}eep{M}ind {JAX} {E}cosystem},
-  author = {DeepMind and Babuschkin, Igor and Baumli, Kate and Bell, Alison and Bhupatiraju, Surya and Bruce, Jake and Buchlovsky, Peter and Budden, David and Cai, Trevor and Clark, Aidan and Danihelka, Ivo and Dedieu, Antoine and Fantacci, Claudio and Godwin, Jonathan and Jones, Chris and Hemsley, Ross and Hennigan, Tom and Hessel, Matteo and Hou, Shaobo and Kapturowski, Steven and Keck, Thomas and Kemaev, Iurii and King, Michael and Kunesch, Markus and Martens, Lena and Merzic, Hamza and Mikulik, Vladimir and Norman, Tamara and Papamakarios, George and Quan, John and Ring, Roman and Ruiz, Francisco and Sanchez, Alvaro and Sartran, Laurent and Schneider, Rosalia and Sezener, Eren and Spencer, Stephen and Srinivasan, Srivatsan and Stanojevi\'{c}, Milo\v{s} and Stokowiec, Wojciech and Wang, Luyu and Zhou, Guangyao and Viola, Fabio},
-  url = {http://github.com/google-deepmind},
-  year = {2020},
-}
+4. DeepMind (2020). The DeepMind JAX Ecosystem. [http://github.com/google-deepmind](http://github.com/google-deepmind)
 
-@inbook{10.5555/3454287.3455008,
-author = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and K\"{o}pf, Andreas and Yang, Edward and DeVito, Zach and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
-title = {PyTorch: an imperative style, high-performance deep learning library},
-year = {2019},
-publisher = {Curran Associates Inc.},
-address = {Red Hook, NY, USA},
-booktitle = {Proceedings of the 33rd International Conference on Neural Information Processing Systems},
-articleno = {721},
-numpages = {12}
-}
+5. Paszke, A., et al. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. Proceedings of the 33rd International Conference on Neural Information Processing Systems.
 
-@software{optax2020github,
-  author = {DeepMind},
-  title = {Optax: composable gradient transformation and optimisation, in JAX!},
-  url = {https://github.com/deepmind/optax},
-  year = {2020}
-}
+6. DeepMind (2020). Optax: Composable Gradient Transformation and Optimisation, in JAX! [https://github.com/deepmind/optax](https://github.com/deepmind/optax)
 
-@software{matplotlib2003github,
-  author = {Hunter, John D.},
-  title = {Matplotlib: A 2D graphics environment},
-  journal = {Computing in Science \& Engineering},
-  volume = {9},
-  number = {3},
-  pages = {90--95},
-  year = {2007},
-  publisher = {IEEE Computer Society}
-}
+7. Hunter, J. D. (2007). Matplotlib: A 2D Graphics Environment. Computing in Science & Engineering, 9(3), 90-95.
 
-@software{tqdm2016github,
-  author = {Casper da Costa-Luis},
-  title = {tqdm: A Fast, Extensible Progress Bar for Python and CLI},
-  url = {https://github.com/tqdm/tqdm},
-  year = {2016}
-}
+8. da Costa-Luis, C. (2016). tqdm: A Fast, Extensible Progress Bar for Python and CLI. [https://github.com/tqdm/tqdm](https://github.com/tqdm/tqdm)
 
-@software{tensorboard2015github,
-  author = {Google},
-  title = {TensorBoard: TensorFlow's Visualization Toolkit},
-  url = {https://github.com/tensorflow/tensorboard},
-  year = {2015}
-}
+9. Google (2015). TensorBoard: TensorFlow's Visualization Toolkit. [https://github.com/tensorflow/tensorboard](https://github.com/tensorflow/tensorboard)
