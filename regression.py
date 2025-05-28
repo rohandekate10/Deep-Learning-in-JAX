@@ -26,6 +26,7 @@ class RegressionDataset(data.Dataset):
         self.y = target_function(self.x)
 
     def __len__(self):
+        print(f"x.shape in __len__: {self.x.shape}")
         return self.x.shape[0]
 
     def __getitem__(self, idx):
@@ -70,6 +71,8 @@ def main(args):
         activation=jax.nn.relu,
         key=jax.random.PRNGKey(args.seed)
     )
+    print(model)
+
     optimizer = optax.adam(learning_rate=args.learning_rate)
     opt_state = optimizer.init(eqx.filter(model, eqx.is_array))
     
@@ -86,9 +89,11 @@ def main(args):
         # Training
         epoch_train_losses = []
         for x, y in train_loader:
+            print(f"x.shape: {x.shape}, y.shape: {y.shape}")
             model, opt_state, loss = train_step(model, opt_state, optimizer, x, y)
             epoch_train_losses.append(loss)
-        
+            break
+        break
         # Validation
         epoch_val_losses = []
         for x, y in val_loader:
@@ -139,17 +144,17 @@ def main(args):
     plt.close()
     
     # Load best model and evaluate on test set
-    best_model = load_model(model_path, model)
-    test_loss = eval_step(best_model, test_loader.dataset.x, test_loader.dataset.y)
-    print(f"Best model test loss: {test_loss:.4f}")
+    # best_model = load_model(model_path, model)
+    # test_loss = eval_step(best_model, test_loader.dataset.x, test_loader.dataset.y)
+    # print(f"Best model test loss: {test_loss:.4f}")
 
     # Plot the predictions
-    plt.figure(figsize=(8, 6))
-    plt.scatter(test_set.x, test_set.y, color='C1', marker='x', alpha=0.5, label='Test set')
-    plt.plot(x, best_model(x), linewidth=3.0, label='Predicted Function')
-    plt.legend()
-    plt.title('Regression function')
-    plt.savefig('regression_function.png')
+    # plt.figure(figsize=(8, 6))
+    # plt.scatter(test_set.x, test_set.y, color='C1', marker='x', alpha=0.5, label='Test set')
+    # plt.plot(x, best_model(x), linewidth=3.0, label='Predicted Function')
+    # plt.legend()
+    # plt.title('Regression function')
+    # plt.savefig('regression_function.png')
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

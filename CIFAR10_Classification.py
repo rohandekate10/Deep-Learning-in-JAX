@@ -20,7 +20,7 @@ from torchvision.datasets import CIFAR10
 from torchvision import transforms
 
 #--------------------------------
-DATASET_PATH = '../data/'
+DATASET_PATH = './data/'
 
 # Transformations applied on each image => bring them into a numpy array
 DATA_MEANS = np.array([0.49139968, 0.48215841, 0.44653091])
@@ -43,12 +43,12 @@ def main(args):
     model_path = os.path.join('checkpoints', 'best_model.pkl')
     
     # Set up data
-    train_set = CIFAR10(root=DATASET_PATH, train=True, transform=train_transform, download=False)
-    val_set = CIFAR10(root=DATASET_PATH, train=True, transform=test_transform, download=False)
+    train_set = CIFAR10(root=DATASET_PATH, train=True, transform=train_transform, download=True)
+    val_set = CIFAR10(root=DATASET_PATH, train=True, transform=test_transform, download=True)
     train_set, _ = data.random_split(train_set, [45000, 5000], generator=torch.Generator().manual_seed(42))
     _, val_set = data.random_split(val_set, [45000, 5000], generator=torch.Generator().manual_seed(42))
 
-    test_set = CIFAR10(root=DATASET_PATH, train=False, transform=test_transform, download=False)
+    test_set = CIFAR10(root=DATASET_PATH, train=False, transform=test_transform, download=True)
 
     # Create keys
     key_model, key_model_init = jax.random.split(jax.random.PRNGKey(args.seed), 2)
@@ -159,10 +159,19 @@ def main(args):
     plt.savefig('accuracy_curves.png')
     plt.close()
     
-    # # Load best model and evaluate on test set
-    # best_model = load_model(model_path, model)
-    # test_loss = eval_step(best_model, test_loader.dataset.x, test_loader.dataset.y)
-    # print(f"Best model test loss: {test_loss:.4f}")
+    # Load best model and evaluate on test set
+    best_model = load_model(model_path, inference_model)
+    test_preds = []
+    test_labels = []
+    for x, y in test_loader:
+        pred = jax.vmap(eval_step_cross_entropy, in_axes=(None, 0))(best_model, x)
+        test_preds.append(pred)
+        test_labels.append(y)
+    
+    test_preds = jnp.concatenate(test_preds, axis=0)
+    test_labels = jnp.concatenate(test_labels, axis=0)
+    accuracy = jnp.mean(jnp.argmax(test_preds, axis=-1) == test_labels)
+    print(f"Test accuracy: {accuracy:.2f}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
