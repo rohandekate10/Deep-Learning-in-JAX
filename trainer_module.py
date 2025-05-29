@@ -87,6 +87,14 @@ def eval_step(model, x, y):
     return mse_loss(model, x, y)
 
 @eqx.filter_jit
+def make_predictions(model, x):
+    """Make predictions for a given model and input."""
+    def single_example_prediction(model, x):
+        return model(x)
+    batch_prediction = jax.vmap(single_example_prediction, in_axes=(None, 0))
+    return batch_prediction(model, x)
+
+@eqx.filter_jit
 def train_step_cross_entropy(model, opt_state, optimizer, x, y, state):
     """Single training step for cross entropy loss."""
     loss, (accuracy, state) = eqx.filter_grad(cross_entropy_loss, has_aux=True)(model, state, x, y)

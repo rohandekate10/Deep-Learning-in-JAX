@@ -90,7 +90,6 @@ class MLP(eqx.Module):
         Returns:
             Output tensor of shape (batch_size, out_size)
         """
-        print(f"x.shape in MLP: {x.shape}")
         for i, layer in enumerate(self.layers):
             x = layer(x)
             # Apply activation after each layer except the last
