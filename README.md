@@ -104,6 +104,31 @@ Training progress can be monitored through:
 - Accuracy curves (`accuracy_curves.png`)
 - Best model checkpoints (`checkpoints/best_model.pkl`)
 
+### Using TensorBoard
+
+1. Enable TensorBoard logging during training by adding the `--use_tensorboard` flag:
+```bash
+python CIFAR10_Classification.py --batch_size 256 --learning_rate 1e-3 --num_epochs 100 --use_tensorboard
+```
+
+2. Start TensorBoard to view the logs:
+```bash
+tensorboard --logdir=runs --port=6006
+```
+
+3. Open your web browser and navigate to:
+```
+http://localhost:6006
+```
+
+The TensorBoard interface provides several useful visualizations:
+- **SCALARS**: View metrics like loss and accuracy over time
+- **GRAPHS**: Visualize your model architecture
+- **HISTOGRAMS**: Monitor parameter distributions
+- **IMAGES**: View sample images and their transformations (if logged)
+
+To stop TensorBoard, press Ctrl+C in the terminal or close the terminal window.
+
 ## Acknowledgments
 
 This project is based on the UvA Deep Learning Tutorials by Phillip Lippe.

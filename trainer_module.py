@@ -22,7 +22,6 @@ import optax
 # PyTorch for data loading
 import torch
 import torch.utils.data as data
-import wandb
 from torch.utils.tensorboard import SummaryWriter
 
 # Local imports
@@ -155,30 +154,3 @@ class TensorBoardLogger:
         """Close the TensorBoard writer."""
         self.writer.close()
 
-class WandbLogger:
-    def __init__(self, project_name="regression", config=None):
-        """Initialize Weights & Biases logger."""
-        wandb.init(project=project_name, config=config)
-        
-    def log_metrics(self, metrics, step):
-        """Log metrics to Weights & Biases."""
-        wandb.log(metrics, step=step)
-            
-    def log_histogram(self, name, values, step):
-        """Log histogram of values to Weights & Biases."""
-        if isinstance(values, jnp.ndarray):
-            values = np.array(values)
-        wandb.log({name: wandb.Histogram(values)}, step=step)
-        
-    def log_parameters(self, params, step):
-        """Log parameter histograms from a PyTree."""
-        def _log_param(path, value):
-            if isinstance(value, (jnp.ndarray, np.ndarray)):
-                name = "/".join(str(p) for p in path)
-                self.log_histogram(f"parameters/{name}", value, step)
-        
-        jax.tree_util.tree_map_with_path(_log_param, params)
-        
-    def close(self):
-        """Close the Weights & Biases logger."""
-        wandb.finish()

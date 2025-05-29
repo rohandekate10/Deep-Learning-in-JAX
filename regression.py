@@ -35,8 +35,8 @@ def main(args):
     device = check_device_jax()
     print(f"Using device: {device}")
     # Create checkpoints directory if it doesn't exist
-    os.makedirs('checkpoints', exist_ok=True)
-    model_path = os.path.join('checkpoints', 'best_model.pkl')
+    os.makedirs(args.output_dir, exist_ok=True)
+    model_path = os.path.join(args.output_dir, 'best_model.pkl')
     
     # Set up data
     train_set = RegressionDataset(num_points=args.num_points, seed=args.seed)
@@ -58,7 +58,7 @@ def main(args):
     plt.plot(x, target_function(x), linewidth=3.0, label='Ground Truth Function')
     plt.legend()
     plt.title('Regression function')
-    plt.savefig('regression_function.png')
+    plt.savefig(os.path.join(args.output_dir, 'regression_function.png'))
     plt.close()
 
     # Initialize model and optimizer
@@ -136,7 +136,7 @@ def main(args):
     plt.plot(train_losses, label='Training Loss')
     plt.plot(val_losses, label='Validation Loss')
     plt.legend()
-    plt.savefig('loss_curves.png')
+    plt.savefig(os.path.join(args.output_dir, 'loss_curves.png'))
     plt.close()
     
     # Load best model and evaluate on test set
@@ -156,11 +156,12 @@ def main(args):
     plt.plot(x_plot, target_function(x_plot), linewidth=3.0, label='Ground Truth Function')
     plt.legend()
     plt.title('Regression Results')
-    plt.savefig('regression_function.png')
+    plt.savefig(os.path.join(args.output_dir, 'regression_results.png'))
     plt.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("--output_dir", type=str, default="output/regression")
     parser.add_argument("--num_points", type=int, default=1000)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--batch_size", type=int, default=64)
