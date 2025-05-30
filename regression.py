@@ -65,8 +65,8 @@ def main(args):
     model = MLP(
         in_size=1,
         out_size=1,
-        width_size=128,
-        depth=2,
+        width_size=args.width_size,
+        depth=args.depth,
         activation=jax.nn.relu,
         key=jax.random.PRNGKey(args.seed)
     )
@@ -109,16 +109,35 @@ def main(args):
         
         # Log metrics to TensorBoard if enabled
         if logger is not None:
+            # Log basic metrics
             logger.log_metrics({
                 'train/loss': avg_train_loss,
                 'val/loss': avg_val_loss,
                 'learning_rate': args.learning_rate
             }, epoch)
             
-            # Log parameter histograms every 10 epochs
-            if epoch % 10 == 0:
+            # Log parameter histograms based on frequency
+            if epoch % args.param_log_freq == 0:
                 params = eqx.filter(model, eqx.is_array)
                 logger.log_parameters(params, epoch)
+            
+            # Log prediction vs ground truth plot based on frequency
+            if epoch % args.plot_log_freq == 0:
+                x_plot = np.linspace(-2, 2, 1000).reshape(-1, 1)
+                y_true = target_function(x_plot)
+                y_pred = make_predictions(model, jnp.array(x_plot))
+                
+                # Create figure
+                fig = plt.figure(figsize=(8, 6))
+                plt.scatter(train_set.x, train_set.y, color='C1', marker='x', alpha=0.5, label='Training set')
+                plt.plot(x_plot, y_true, linewidth=3.0, label='Ground Truth')
+                plt.plot(x_plot, y_pred, linewidth=2.0, label='Model Prediction')
+                plt.legend()
+                plt.title(f'Regression Results (Epoch {epoch})')
+                
+                # Log figure to TensorBoard
+                logger.writer.add_figure('predictions/regression', fig, epoch)
+                plt.close()
         
         # Update progress bar
         pbar.set_postfix(
@@ -169,5 +188,9 @@ if __name__ == "__main__":
     parser.add_argument("--learning_rate", type=float, default=1e-3)
     parser.add_argument("--num_epochs", type=int, default=10)
     parser.add_argument("--use_tensorboard", action="store_true", help="Enable TensorBoard logging")
+    parser.add_argument("--param_log_freq", type=int, default=100, help="Frequency (in epochs) for logging parameter histograms")
+    parser.add_argument("--plot_log_freq", type=int, default=250, help="Frequency (in epochs) for logging prediction plots")
+    parser.add_argument("--width_size", type=int, default=128, help="Width size of the MLP")
+    parser.add_argument("--depth", type=int, default=2, help="Depth of the MLP")
     args = parser.parse_args()
     main(args)

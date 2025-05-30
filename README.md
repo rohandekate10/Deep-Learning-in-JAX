@@ -25,7 +25,7 @@ This repository contains implementations of deep learning models and training pi
 
 1. Create and activate conda environment:
 ```bash
-conda create -n jax-dl python=3.13
+conda create -n jax-dl python=3.12
 conda activate jax-dl
 ```
 
@@ -33,6 +33,7 @@ conda activate jax-dl
 ```bash
 pip install jax jaxlib equinox optax torch torchvision tqdm matplotlib tensorboard
 ```
+If you're using an NVIDIA GPU install relevant packages for `jax` and `torch`.
 
 3. Create data directory:
 ```bash
@@ -63,6 +64,29 @@ Command-line arguments:
 Train a model on regression tasks:
 ```bash
 python regression.py
+```
+
+Command-line arguments:
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `--seed` | Random seed | 42 |
+| `--batch_size` | Batch size | 64 |
+| `--num_workers` | Data loading workers | 4 |
+| `--learning_rate` | Learning rate | 1e-3 |
+| `--num_epochs` | Training epochs | 10 |
+| `--use_tensorboard` | Enable TensorBoard | False |
+| `--param_log_freq` | Frequency for logging parameter histograms | 100 |
+| `--plot_log_freq` | Frequency for logging prediction plots | 250 |
+| `--width_size` | Width size of the MLP | 128 |
+| `--depth` | Depth of the MLP | 2 |
+| `--output_dir` | Directory for saving outputs | "output/regression" |
+| `--num_points` | Number of training points | 1000 |
+
+Example with custom parameters:
+```bash
+python regression.py --batch_size 128 --learning_rate 5e-4 --num_epochs 500 \
+    --use_tensorboard --param_log_freq 50 --plot_log_freq 100 \
+    --width_size 256 --depth 3
 ```
 
 ## Project Structure
@@ -108,7 +132,7 @@ Training progress can be monitored through:
 
 1. Enable TensorBoard logging during training by adding the `--use_tensorboard` flag:
 ```bash
-python CIFAR10_Classification.py --batch_size 256 --learning_rate 1e-3 --num_epochs 100 --use_tensorboard
+python regression.py --use_tensorboard
 ```
 
 2. Start TensorBoard to view the logs:
@@ -122,10 +146,13 @@ http://localhost:6006
 ```
 
 The TensorBoard interface provides several useful visualizations:
-- **SCALARS**: View metrics like loss and accuracy over time
-- **GRAPHS**: Visualize your model architecture
-- **HISTOGRAMS**: Monitor parameter distributions
-- **IMAGES**: View sample images and their transformations (if logged)
+- **SCALARS**: View metrics like loss and learning rate over time
+- **HISTOGRAMS**: Monitor parameter distributions (logged every `param_log_freq` epochs)
+- **IMAGES**: View prediction plots (logged every `plot_log_freq` epochs)
+
+You can control the logging frequency using:
+- `--param_log_freq`: How often to log parameter histograms (default: 100 epochs)
+- `--plot_log_freq`: How often to log prediction plots (default: 250 epochs)
 
 To stop TensorBoard, press Ctrl+C in the terminal or close the terminal window.
 
